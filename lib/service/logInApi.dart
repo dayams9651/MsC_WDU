@@ -9,7 +9,6 @@ import '../const/api_url.dart';
 import '../style/color.dart';
 import 'package:get_storage/get_storage.dart';
 final box = GetStorage();
-
 class UserLogInService extends GetxController {
   RxBool isLoading = false.obs;
   var responseMessage = ''.obs;
@@ -31,18 +30,24 @@ class UserLogInService extends GetxController {
       if (response.statusCode == 200) {
         if (responseData['success']) {
           String token = responseData['data']['token'];
-          box.write('token', token);
-           // Save token here
+          box.write('token', token);  // Save token in GetStorage
           debugPrint("Saved Token: $token");
-          debugPrint("LogIn Api Response : ${response.body}");
+
+          // Verify that the token is actually saved
+          String? savedToken = box.read('token');
+          debugPrint("Token from GetStorage: $savedToken");
+
           showCustomSnackbar('LogIn', '${responseData['message']}');
-          debugPrint("LogIn Data: ${responseData['message']}");
-          Get.to( const BottomBar());
+
+          Get.to(
+            const BottomBar(),
+            arguments: {'token': token},  // Pass the token to the next page
+          );
+
           var decodedResponse = json.decode(response.body);
           logInData.value = LoginResponse.fromJson(decodedResponse);
         } else {
           showCustomSnackbar('Error', responseData['message'] ?? 'Your Email or Password is wrong');
-          debugPrint("Error ${responseData['message']}");
         }
       } else {
         showCustomSnackbar('Alert', 'Your Email or Password is wrong');
@@ -51,6 +56,8 @@ class UserLogInService extends GetxController {
       showCustomSnackbar('Error', 'Please Check Your Internet Connection', backgroundColor: AppColors.error10);
     }
   }
+
+
   String getToken() {
     return box.read('token') ?? '';
   }

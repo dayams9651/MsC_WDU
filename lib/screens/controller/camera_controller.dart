@@ -36,7 +36,7 @@ class UploadController extends GetxController {
     }
 
     String? token = box.read('token');
-    debugPrint('Retrieved Token: $token'); // Debugging token retrieval
+    debugPrint('Retrieved Token: $token');  // Debugging token retrieval
 
     if (token == null || token.isEmpty) {
       Get.snackbar('Error', 'Token not found. Please log in first.');
@@ -82,6 +82,7 @@ class UploadController extends GetxController {
       isLoading.value = false;
     }
   }
+
 
   void removeImage(File image) {
     selectedImages.remove(image);
