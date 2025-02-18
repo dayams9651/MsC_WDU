@@ -1,5 +1,9 @@
 import 'package:farmicon1/screens/qr_scan_list.dart';
+import 'package:farmicon1/style/color.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import '../routes/routes.dart';
 import '../screens/scanQR_screen_page.dart';
 
 import 'package:flutter/material.dart';
@@ -16,8 +20,8 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   int _selectedIndex = 0;
   static final List<Widget> _pages = [
-    QrScanList(),
-    const ScanqrScreenPage(setResult: '',),
+    const QrScanList(),
+    const ScanQrScreenPage(setResult: '',),
   ];
 
   void _onItemTapped(int index) {
@@ -27,38 +31,46 @@ class _BottomBarState extends State<BottomBar> {
   }
 
   Future<bool> _onWillPop() async {
-    // Show the confirmation dialog
     bool shouldExit = await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Exit'),
-          content: Text('Are you sure you want to exit?'),
+          title: const Text('Exit'),
+          content: const Text('Are you sure you want to exit?'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(false); // Don't exit
+                Navigator.of(context).pop(false);
               },
-              child: Text('No'),
+              child: const Text('No'),
             ),
             TextButton(
               onPressed: () {
+                final box = GetStorage();
+                box.erase();
+                String? token = box.read('token');
+                if (token == null) {
+                  Get.toNamed(ApplicationPages.splashScreen);
+                  debugPrint('Token has been deleted');
+                } else {
+                  debugPrint('Token still exists: $token');
+                }
                 Navigator.of(context).pop(true); // Exit
               },
-              child: Text('Yes'),
+              child: const Text('Yes'),
             ),
           ],
         );
       },
     );
 
-    return shouldExit; // If true, exit the app, if false, stay on the current page
+    return shouldExit;
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: _onWillPop, // Call the exit confirmation when back button is pressed
+      onWillPop: _onWillPop,
       child: Scaffold(
         body: AnimatedSwitcher(
           duration: const Duration(milliseconds: 600),
@@ -71,16 +83,16 @@ class _BottomBarState extends State<BottomBar> {
           backgroundColor: Colors.white,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: _buildAnimatedIcon(Icons.explore, 0),
-              label: 'Explore',
+              icon: _buildAnimatedIcon(Icons.home, 0,),
+              label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: _buildAnimatedIcon(Icons.document_scanner, 1),
+              icon: _buildAnimatedIcon(Icons.document_scanner, 1,),
               label: 'Scan Code',
             ),
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.blue,
+          selectedItemColor: AppColors.primaryColor,
           unselectedItemColor: Colors.grey,
           onTap: _onItemTapped,
         ),
@@ -96,7 +108,7 @@ class _BottomBarState extends State<BottomBar> {
       height: isSelected ? 35 : 24,
       child: Icon(
         icon,
-        color: isSelected ? Colors.blue : Colors.grey,
+        color: isSelected ? AppColors.primaryColor : Colors.grey,
         size: isSelected ? 30 : 24, // Adjust icon size
       ),
     );

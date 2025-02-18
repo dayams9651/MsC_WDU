@@ -18,6 +18,7 @@ class UserLogInService extends GetxController {
       final response = await http.post(
         Uri.parse(logInApi),
         headers: {
+
           'Content-Type': 'application/json',
         },
         body: json.encode({
@@ -30,38 +31,31 @@ class UserLogInService extends GetxController {
       if (response.statusCode == 200) {
         if (responseData['success']) {
           String token = responseData['data']['token'];
-          box.write('token', token);  // Save token in GetStorage
+          box.write('token', token);
           debugPrint("Saved Token: $token");
-
-          // Verify that the token is actually saved
           String? savedToken = box.read('token');
           debugPrint("Token from GetStorage: $savedToken");
-
-          showCustomSnackbar('LogIn', '${responseData['message']}');
-
+          showCustomSnackbar('LogIn', '${responseData['message']}', backgroundColor: AppColors.success20);
           Get.to(
             const BottomBar(),
-            arguments: {'token': token},  // Pass the token to the next page
+            arguments: {'token': token},
           );
-
           var decodedResponse = json.decode(response.body);
           logInData.value = LoginResponse.fromJson(decodedResponse);
         } else {
-          showCustomSnackbar('Error', responseData['message'] ?? 'Your Email or Password is wrong');
+          showCustomSnackbar('Error', responseData['message'] ?? 'Your Email or Password is wrong', backgroundColor: AppColors.error20);
         }
       } else {
         showCustomSnackbar('Alert', 'Your Email or Password is wrong');
       }
     } catch (error) {
+
       showCustomSnackbar('Error', 'Please Check Your Internet Connection', backgroundColor: AppColors.error10);
     }
   }
-
-
   String getToken() {
     return box.read('token') ?? '';
   }
-
   bool isUserLoggedIn() {
     return box.read('token') != null;
   }

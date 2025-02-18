@@ -1,4 +1,3 @@
-import 'package:farmicon1/bottomBar/bottomBar_page.dart';
 import 'package:farmicon1/common/widget/round_button.dart';
 import 'package:farmicon1/service/logInApi.dart';
 import 'package:flutter/material.dart';
@@ -47,12 +46,12 @@ class _SignupScreenState extends State<SignupScreen> {
                     logo,
                     height: 110,
                   ),
-                  Text("MsCorpres Automation", style: AppTextStyles.kBody24SemiBoldTextStyle),
+                  Text("MsCorpres Automation", style: AppTextStyles.kBody16SemiBoldTextStyle),
                   const SizedBox(height: 30),
                   Text("Wrong Device Capture utilities",
                       style: AppTextStyles.kCaption14RegularTextStyle.copyWith(
                           color: AppColors.primaryColor)),
-                  Text("Login to continue", style: AppTextStyles.kBody20SemiBoldTextStyle),
+                  Text("Login to continue", style: AppTextStyles.kCaption14SemiBoldTextStyle),
                 ],
               ),
               Form(
@@ -140,7 +139,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         loading: _isLoading,
                       ),
                     ),
-                    const SizedBox(height: 40)
+                    const SizedBox(height: 40),
+
                   ],
                 ),
               ),

@@ -5,15 +5,15 @@ import 'package:get/get.dart';
 import 'package:farmicon1/screens/controller/camera_controller.dart';
 import 'package:farmicon1/style/color.dart';
 import 'package:farmicon1/style/text_style.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
 
 class QrResultScreen extends StatefulWidget {
   final String result;
   const QrResultScreen({super.key, required this.result});
-
   @override
   State<QrResultScreen> createState() => _QrResultScreenState();
 }
-
 class _QrResultScreenState extends State<QrResultScreen> {
   final UploadController controller = Get.put(UploadController());
 
@@ -28,7 +28,13 @@ class _QrResultScreenState extends State<QrResultScreen> {
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return Center(
+            child: LoadingAnimationWidget.twistingDots(
+              leftDotColor: const Color(0xFF1A1A3F),
+              rightDotColor: const Color(0xFFEA3799),
+              size: 80,
+            ),
+          );
         } else {
           return Padding(
             padding: const EdgeInsets.all(8.0),
@@ -51,7 +57,7 @@ class _QrResultScreenState extends State<QrResultScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: 15),
                 controller.selectedImages.isNotEmpty
                     ? Expanded(
                   child: GridView.builder(
@@ -63,7 +69,6 @@ class _QrResultScreenState extends State<QrResultScreen> {
                     itemCount: controller.selectedImages.length,
                     itemBuilder: (context, index) {
                       final File image = controller.selectedImages[index];
-
                       return Stack(
                         children: [
                           Container(
@@ -106,7 +111,9 @@ class _QrResultScreenState extends State<QrResultScreen> {
                     CircleAvatar(
                       radius: 30,
                       child: IconButton(
-                        onPressed: Get.back,
+                        onPressed: () {
+                          Get.back();
+                        },
                         icon: const Icon(Icons.cancel_outlined, size: 38),
                       ),
                     ),
@@ -124,12 +131,12 @@ class _QrResultScreenState extends State<QrResultScreen> {
                         onPressed: () {
                           controller.uploadImage(widget.result);
                         },
-                        icon: Icon(Icons.check, size: 38),
+                        icon: const Icon(Icons.check, size: 38),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
               ],
             ),
           );

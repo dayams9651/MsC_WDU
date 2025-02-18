@@ -1,7 +1,8 @@
-
 import 'dart:convert';
 import 'dart:io';
+import 'package:farmicon1/const/api_url.dart';
 import 'package:farmicon1/screens/scanQR_screen_page.dart';
+import 'package:farmicon1/style/color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -31,21 +32,21 @@ class UploadController extends GetxController {
   }
   Future<void> uploadImage(String? result) async {
     if (selectedImages.isEmpty) {
-      Get.snackbar('Error', 'Please select at least one image');
+      Get.snackbar('Error', 'Please select at least one image', backgroundColor: AppColors.error20);
       return;
     }
 
     String? token = box.read('token');
-    debugPrint('Retrieved Token: $token');  // Debugging token retrieval
+    debugPrint('Retrieved Token: $token');
 
     if (token == null || token.isEmpty) {
-      Get.snackbar('Error', 'Token not found. Please log in first.');
+      Get.snackbar('Error', 'Token not found. Please log in first.', backgroundColor: AppColors.error20);
       return;
     }
 
     isLoading.value = true;
     var uri = Uri.parse(
-      'https://api-bpe.mscapi.live/wrongDevice/uploadImages/$result',
+      '$uploadImageApi/$result',
     );
 
     var request = http.MultipartRequest('POST', uri);
@@ -67,22 +68,21 @@ class UploadController extends GetxController {
       if (response.statusCode == 200) {
         var jsonResponse = json.decode(responseBody);
         var message = jsonResponse['message'] ?? 'No message from server';
-        Get.snackbar('Success', message);
+        Get.snackbar('Success', message , backgroundColor: AppColors.success20 );
         debugPrint('Response Message: $responseBody');
-        Get.to(ScanqrScreenPage(setResult: ''));
+        Get.to(const ScanQrScreenPage(setResult: ''));
       } else {
         var jsonResponse = json.decode(responseBody);
         var errorMessage = jsonResponse['message'] ?? 'Failed to upload images';
-        Get.snackbar('Error', errorMessage);
+        Get.snackbar('Error', errorMessage, backgroundColor: AppColors.error20);
       }
     } catch (e) {
-      Get.snackbar('Error', 'Something went wrong: $e');
+      Get.snackbar('Error', 'Please check your internet connection', backgroundColor: AppColors.error20);
     } finally {
       uploadingImages.clear();
       isLoading.value = false;
     }
   }
-
 
   void removeImage(File image) {
     selectedImages.remove(image);
