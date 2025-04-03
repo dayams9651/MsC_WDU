@@ -43,6 +43,7 @@ class _ScanQrScreenPageState extends State<ScanQrScreenPage> {
 
   void _toggleFlash() async {
     if (_qrViewController != null) {
+      // bool isFlashOn = await _qrViewController!.getFlashStatus() ?? false;
       _qrViewController?.toggleFlash();
     }
   }

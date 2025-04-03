@@ -1,28 +1,27 @@
-import 'package:farmicon1/common/widget/round_button.dart';
-import 'package:farmicon1/const/image_strings.dart';
-import 'package:farmicon1/routes/routes.dart';
-import 'package:farmicon1/screens/qe_result_screen.dart';
 import 'package:farmicon1/style/color.dart';
-import 'package:farmicon1/style/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
-import 'package:flutter/services.dart';
-import 'controller/get_devices_details_controller.dart';
 
-class ScanQrScreenPage extends StatefulWidget {
-  final String setResult;
+import '../../common/widget/round_button.dart';
+import '../../const/image_strings.dart';
+import '../../routes/routes.dart';
+import '../../screens/controller/get_devices_details_controller.dart';
+import '../../screens/qe_result_screen.dart';
+import '../../style/text_style.dart';
 
-  const ScanQrScreenPage({
-    required this.setResult,
-    super.key,
-  });
+class ScannerPage extends StatefulWidget {
+  final int index;
+  final String text;
+  const ScannerPage({Key? key, required this.index, required this.text}) : super(key: key);
 
   @override
-  State<ScanQrScreenPage> createState() => _ScanQrScreenPageState();
+  State<ScannerPage> createState() => _ScannerPageState();
 }
-class _ScanQrScreenPageState extends State<ScanQrScreenPage> {
+
+class _ScannerPageState extends State<ScannerPage> {
   final TextEditingController _textController = TextEditingController();
   final DeviceController deviceController = Get.put(DeviceController());
   QRViewController? _qrViewController;
@@ -53,15 +52,9 @@ class _ScanQrScreenPageState extends State<ScanQrScreenPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: AppColors.primaryColor,
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            "Scan IMEI QR/Barcode",
-            style: AppTextStyles.kCaption13SemiBoldTextStyle.copyWith(color: AppColors.white),
-          ),
-        ),
+        title: Text(widget.text, style: AppTextStyles.kBody16SemiBoldTextStyle.copyWith(color: AppColors.white),),
         actions: [
-          IconButton(onPressed: _toggleFlash, icon: Icon(Icons.flash_auto)),
+          IconButton(onPressed: _toggleFlash, icon: const Icon(Icons.flash_auto)),
           Padding(
             padding: const EdgeInsets.all(5.0),
             child: IconButton(
@@ -172,7 +165,8 @@ class _ScanQrScreenPageState extends State<ScanQrScreenPage> {
               padding: const EdgeInsets.all(12.0),
               child: RoundButton(title: "Next", onTap: () {
                 Get.to(() => QrResultScreen(result: _textController.text));
-              }),
+               }
+              ),
             ),
           ],
         ),
@@ -232,7 +226,3 @@ class _ScanQrScreenPageState extends State<ScanQrScreenPage> {
     }
   }
 }
-
-
-
-

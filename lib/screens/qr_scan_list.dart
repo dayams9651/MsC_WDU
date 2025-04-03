@@ -24,20 +24,20 @@ class _QrScanListState extends State<QrScanList> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Log out"),
-          content: Text("Are you sure you want to logout?"),
+          title: const Text("Log out"),
+          content: const Text("Are you sure you want to logout?"),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
-              child: Text("Cancel"),
+              child: const Text("Cancel"),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(true);
               },
-              child: Text("Logout"),
+              child: const Text("Logout"),
             ),
           ],
         );
@@ -57,6 +57,7 @@ class _QrScanListState extends State<QrScanList> {
       SystemNavigator.pop();
     }
   }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -91,7 +92,7 @@ class _QrScanListState extends State<QrScanList> {
                     child: Card(
                       color: AppColors.white40,
                       child: ListTile(
-                        title: Text("${profileData?.data?.username} (${profileData?.data?.companyId})", style: AppTextStyles.kCaption14SemiBoldTextStyle,),
+                        title: Text("${profileData?.data?.username.toString()} (${profileData?.data?.companyId})", style: AppTextStyles.kCaption14SemiBoldTextStyle,),
                         subtitle: Text("${profileData?.data?.crnId}", style: AppTextStyles.kCaption13RegularTextStyle),
                         leading: const CircleAvatar(
                           radius: 40,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:farmicon1/bottomBar/bottomBar_page.dart';
+import 'package:farmicon1/dashboard/view/dashboard_screen.dart';
 import 'package:farmicon1/service/loginIn_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,7 +19,6 @@ class UserLogInService extends GetxController {
       final response = await http.post(
         Uri.parse(logInApi),
         headers: {
-
           'Content-Type': 'application/json',
         },
         body: json.encode({
@@ -35,11 +35,13 @@ class UserLogInService extends GetxController {
           debugPrint("Saved Token: $token");
           String? savedToken = box.read('token');
           debugPrint("Token from GetStorage: $savedToken");
+          debugPrint('Response Data: $responseData');
           showCustomSnackbar('LogIn', '${responseData['message']}', backgroundColor: AppColors.success20);
-          Get.to(
-            const BottomBar(),
-            arguments: {'token': token},
-          );
+          // Get.to(
+          //   const BottomBar(),
+          //   arguments: {'token': token},
+          // );
+          Get.to(DashboardScreen());
           var decodedResponse = json.decode(response.body);
           logInData.value = LoginResponse.fromJson(decodedResponse);
         } else {
@@ -49,7 +51,6 @@ class UserLogInService extends GetxController {
         showCustomSnackbar('Alert', 'Your Email or Password is wrong');
       }
     } catch (error) {
-
       showCustomSnackbar('Error', 'Please Check Your Internet Connection', backgroundColor: AppColors.error10);
     }
   }

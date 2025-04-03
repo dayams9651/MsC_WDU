@@ -9,6 +9,7 @@ import '../screens/scanQR_screen_page.dart';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatefulWidget {
+
   const BottomBar({super.key});
 
   @override
@@ -63,7 +64,6 @@ class _BottomBarState extends State<BottomBar> {
         );
       },
     );
-
     return shouldExit;
   }
 
@@ -103,13 +103,13 @@ class _BottomBarState extends State<BottomBar> {
   Widget _buildAnimatedIcon(IconData icon, int index,) {
     bool isSelected = _selectedIndex == index;
     return AnimatedContainer(
-      duration: Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 200),
       width: isSelected ? 40 : 24,
       height: isSelected ? 35 : 24,
       child: Icon(
         icon,
         color: isSelected ? AppColors.primaryColor : Colors.grey,
-        size: isSelected ? 30 : 24, // Adjust icon size
+        size: isSelected ? 30 : 24,
       ),
     );
   }

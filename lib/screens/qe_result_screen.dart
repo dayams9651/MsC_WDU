@@ -7,15 +7,22 @@ import 'package:farmicon1/style/color.dart';
 import 'package:farmicon1/style/text_style.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-
 class QrResultScreen extends StatefulWidget {
   final String result;
   const QrResultScreen({super.key, required this.result});
+
   @override
   State<QrResultScreen> createState() => _QrResultScreenState();
 }
+
 class _QrResultScreenState extends State<QrResultScreen> {
   final UploadController controller = Get.put(UploadController());
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.selectedImages.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +46,6 @@ class _QrResultScreenState extends State<QrResultScreen> {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
@@ -145,5 +151,6 @@ class _QrResultScreenState extends State<QrResultScreen> {
     );
   }
 }
+
 
 

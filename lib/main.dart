@@ -1,4 +1,4 @@
-// lib/main.dart
+
 import 'package:farmicon1/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

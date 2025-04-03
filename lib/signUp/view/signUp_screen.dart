@@ -48,7 +48,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   Text("MsCorpres Automation", style: AppTextStyles.kBody16SemiBoldTextStyle),
                   const SizedBox(height: 30),
-                  Text("Wrong Device Capture utilities",
+                  Text("Missing Items From Devices Capture",
                       style: AppTextStyles.kCaption14RegularTextStyle.copyWith(
                           color: AppColors.primaryColor)),
                   Text("Login to continue", style: AppTextStyles.kCaption14SemiBoldTextStyle),

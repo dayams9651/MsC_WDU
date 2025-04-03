@@ -250,9 +250,12 @@ class UploadController extends GetxController {
     }
   }
 
+
+
   void removeImage(File image) {
     selectedImages.remove(image);
   }
+
 
   TextEditingController get textController => _textController;
 }
